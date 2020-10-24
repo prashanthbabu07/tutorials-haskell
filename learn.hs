@@ -378,12 +378,13 @@ fibonacci n = (fibonacci $ (n -1)) + (fibonacci $ (n -2))
 
 -- Either is like Maybe but hold value for Nothing (example error value and valid value)
 
--- Thunks -
+-- Thunks - is for lazy evaluation in haskell
 
 func a b = if a `mod` 2 == 0 then a else b
 
 func_val = func (1 + 1) (1 + 2)
 
+--thunk stored in memory
 thunk = if (1 + 1) `mod` 2 == 0 then (1 + 1) else (1 + 2)
 
 --strictness force evaluation instead of lazy
