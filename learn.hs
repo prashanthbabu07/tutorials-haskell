@@ -391,3 +391,12 @@ thunk = if (1 + 1) `mod` 2 == 0 then (1 + 1) else (1 + 2)
 
 --exceptions can be thrown from purely functional code, but may only be caught
 -- with in the IO monad
+
+--semigroup
+--monaid is a semigroup with identity element
+
+-- category theory
+--  functors -> mapping morphisms from one categor to other (types)
+--  applicatives
+--  monads
+
