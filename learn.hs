@@ -435,3 +435,5 @@ instance Eq Date where
 
 instance Show Date where
   show (Date week_day day_of_month) = (show week_day) ++ " " ++ (show day_of_month)
+
+data Expr = Value Int | Divide Expr Expr
