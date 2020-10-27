@@ -437,3 +437,43 @@ instance Show Date where
   show (Date week_day day_of_month) = (show week_day) ++ " " ++ (show day_of_month)
 
 data Expr = Value Int | Divide Expr Expr
+
+eval :: Expr -> Int
+eval (Value n) = n
+eval (Divide x y) = div (eval x) (eval y)
+
+safe_div :: Int -> Int -> Maybe Int
+safe_div n m =
+  if m == 0
+    then Nothing
+    else Just (div n m)
+
+eval_safe :: Expr -> Maybe Int
+eval_safe (Value n) = Just n
+eval_safe (Divide x y) =
+  case eval_safe x of
+    Nothing -> Nothing
+    Just n -> case eval_safe y of
+      Nothing -> Nothing
+      Just m -> safe_div n m
+
+eval_abstracted :: Expr -> Maybe Int
+eval_abstracted (Value n) = return n
+eval_abstracted (Divide x y) =
+  eval_abstracted x
+    >>= ( \n ->
+            eval_abstracted y
+              >>= (\m -> safe_div n m)
+        )
+
+-- >>= is like then
+--eval_abstracted (Divide (Value 10) (Value 0))
+
+eval_abstracted_do :: Expr -> Maybe Int
+eval_abstracted_do (Value n) = return n
+eval_abstracted_do (Divide x y) = do
+  n <- eval_abstracted_do x
+  m <- eval_abstracted_do y
+  safe_div n m
+
+--usage eval_abstracted_do (Divide (Value 10) (Value 0))
